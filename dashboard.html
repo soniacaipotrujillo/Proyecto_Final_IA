@@ -1,0 +1,126 @@
+{% extends "base.html" %} {% block title %}Panel de Control - GamePulse AI{%
+endblock %} {% block content %}
+<h2>BIENVENIDO, ANALISTA</h2>
+<p style="color: #b0b0b0; margin-bottom: 30px">
+  Aquí tienes un resumen del pulso actual del mercado de los videojuegos.
+</p>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  .card h3 {
+    margin-top: 0;
+    color: #b0b0b0;
+    font-size: 1em;
+    font-weight: 500;
+  }
+  .card .stat {
+    font-size: 2.2em;
+    color: #fff;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  .card .detail {
+    font-size: 0.9em;
+    color: #77dd77; /* Verde para el aumento */
+  }
+</style>
+
+<div class="grid">
+  <div class="card">
+    <h3>Juegos Analizados</h3>
+    <p class="stat">{{ summary.juegos_analizados }}</p>
+    <p class="detail">+20.1% desde el último mes</p>
+  </div>
+  <div class="card">
+    <h3>Predicciones Activas</h3>
+    <p class="stat">{{ summary.predicciones_activas }}</p>
+    <p class="detail">+180.1% desde el último mes</p>
+  </div>
+  <div class="card">
+    <h3>Precisión del Modelo</h3>
+    <p class="stat">{{ summary.precision_modelo }}</p>
+    <p class="detail" style="color: #b0b0b0">
+      Basado en los últimos casos de prueba
+    </p>
+  </div>
+  <div class="card">
+    <h3>Base de Jugadores Monitoreada</h3>
+    <p class="stat">{{ summary.jugadores_monitoreados }}</p>
+    <p class="detail" style="color: #b0b0b0">En todas las plataformas</p>
+  </div>
+</div>
+
+<div class="card" style="margin-top: 30px">
+  <h3>Tendencias de Popularidad</h3>
+  <p
+    style="
+      color: #b0b0b0;
+      font-size: 0.9em;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    "
+  >
+    Interacción de los jugadores en los últimos 12 meses.
+  </p>
+
+  <canvas id="popularityChart"></canvas>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      try {
+          // Obtenemos los datos que Flask nos pasó (de app.py)
+          var chartData = {{ chart_data | tojson }};
+
+          // Obtenemos el "lienzo" (canvas)
+          var ctx = document.getElementById('popularityChart').getContext('2d');
+
+          // Creamos el nuevo gráfico
+          new Chart(ctx, {
+              type: 'line',
+              data: chartData,
+              options: {
+                  responsive: true,
+                  plugins: { legend: { labels: { color: '#E0E0E0' } } },
+                  scales: {
+                      y: {
+                          ticks: {
+                              color: '#B0B0B0',
+                              callback: function(value, index, values) {
+                                  if (value >= 1000) {
+                                      return (value / 1000) + 'K';
+                                  } else if (value == 0) {
+                                      return '0K';
+                                  }
+                                  return value;
+                              }
+                          },
+                          grid: { color: '#444' }
+                      },
+                      x: {
+                          ticks: { color: '#B0B0B0' },
+                          grid: { color: '#444' }
+                      }
+                  }
+              }
+          });
+      } catch (error) {
+          console.error("Error al renderizar el gráfico:", error);
+          var chartCanvas = document.getElementById('popularityChart');
+          if(chartCanvas) {
+              chartCanvas.parentElement.innerHTML += "<p style='color: #FF6B6B;'>Error al cargar los datos del gráfico.</p>";
+          }
+      }
+  });
+</script>
+{% endblock %}

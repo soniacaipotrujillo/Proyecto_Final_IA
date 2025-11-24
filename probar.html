@@ -1,0 +1,188 @@
+{% extends 'base.html' %} {% block title %}Probar Modelo - GamePulse AI{%
+endblock %} {% block content %}
+<style>
+  /* --- Estilos Específicos para esta Vista --- */
+
+  /* Encabezado */
+  .page-header {
+    margin-bottom: 30px;
+  }
+  .page-header h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .page-header p {
+    color: #a0a0a0;
+  }
+
+  /* Grid Principal */
+  .testing-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* Izquierda ancha, derecha estrecha */
+    gap: 30px;
+  }
+
+  /* Tarjetas */
+  .custom-card {
+    background-color: #1e1e1e;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-title {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+
+  .card-subtitle {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+  }
+
+  /* Campos de Formulario */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group label {
+    display: block;
+    color: #fff;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* Estilo compartido para Inputs y Selects */
+  .custom-input,
+  .custom-select {
+    width: 100%;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+
+  .custom-input:focus,
+  .custom-select:focus {
+    outline: none;
+    border-color: #7c3aed; /* Acento violeta */
+  }
+
+  textarea.custom-input {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* Botón */
+  .btn-test {
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+    width: fit-content; /* El botón no ocupa todo el ancho en tu imagen, pero podemos ajustarlo */
+  }
+  .btn-test:hover {
+    background-color: #6d28d9;
+  }
+
+  /* Placeholder de Resultados (Lado Derecho) */
+  .result-placeholder {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #666;
+    min-height: 200px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .testing-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="testing-container">
+  <div class="page-header">
+    <h2>Pruebas del Modelo Predictivo</h2>
+    <p>
+      Valida la precisión del modelo utilizando casos de prueba representativos.
+    </p>
+  </div>
+
+  <div class="testing-grid">
+    <div class="custom-card">
+      <h3 class="card-title">Entrada del Caso de Prueba</h3>
+      <p class="card-subtitle">
+        Selecciona un caso de prueba predefinido para evaluar el modelo.
+      </p>
+
+      <form action="/test_model_submit" method="POST">
+        <div class="form-group">
+          <label>Seleccionar Caso de Prueba</label>
+          <select name="game_select" class="custom-select">
+            <option value="" disabled selected>
+              Selecciona un juego para probar
+            </option>
+            <option value="cyberpunk">Cyberpunk 2077 (Lanzamiento)</option>
+            <option value="eldenring">Elden Ring (Tendencia Alta)</option>
+            <option value="hollowknight">Hollow Knight (Indie Exitoso)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Datos Históricos</label>
+          <textarea
+            name="historical_data"
+            class="custom-input"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Actualizaciones de Contenido</label>
+          <textarea
+            name="content_updates"
+            class="custom-input"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Buzz en Redes Sociales</label>
+          <textarea name="social_buzz" class="custom-input" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn-test">⚡ Probar Modelo</button>
+      </form>
+    </div>
+
+    <div class="custom-card">
+      <h3 class="card-title">Resultado de la Prueba</h3>
+      <p class="card-subtitle">
+        La evaluación del rendimiento del modelo aparecerá a continuación.
+      </p>
+
+      <div class="result-placeholder">
+        <p>Los resultados se mostrarán aquí.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

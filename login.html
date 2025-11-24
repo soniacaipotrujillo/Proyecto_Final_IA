@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - GamePulse AI</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background-color: #0d0d0d; /* Fondo muy oscuro */
+        color: #e0e0e0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .login-wrapper {
+        display: flex;
+        width: 90%; /* Ancho responsivo */
+        max-width: 1000px; /* Ancho máximo similar a tu imagen de registro */
+        height: 90vh; /* Altura responsiva */
+        max-height: 600px; /* Altura máxima */
+        background: linear-gradient(
+          to right,
+          #001f3f,
+          #004080
+        ); /* Degradado azul oscuro */
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+      }
+
+      .image-section {
+        flex: 1; /* Ocupa la mitad del espacio */
+
+        /* --- ¡LÍNEA CORREGIDA AQUÍ! --- */
+        background-image: url("{{ url_for('static', filename='pagina.png') }}");
+
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex; /* Para centrar el texto promocional si lo añadimos */
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      }
+      .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4); /* Oscurece la imagen ligeramente */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+      .image-overlay h2 {
+        font-size: 2em;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+      .image-overlay p {
+        font-size: 1em;
+        max-width: 80%;
+        line-height: 1.6;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+
+      .form-section {
+        flex: 1.2; /* Ocupa un poco más de la mitad para el formulario */
+        background: linear-gradient(
+          to top right,
+          #3498db,
+          #2ecc71
+        ); /* Degradado azul-verde */
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* ... (El resto de tus estilos CSS - sin cambios) ... */
+      .form-section h1 {
+        font-size: 2.2em;
+        margin-bottom: 15px;
+        color: #fff;
+        text-align: center;
+      }
+      .form-section p.subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 30px;
+        font-size: 0.9em;
+      }
+      .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 600;
+        font-size: 0.9em;
+      }
+      .form-group input[type="text"],
+      .form-group input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 6px;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: #fff;
+        font-size: 1em;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+      }
+      .form-group input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .form-group input:focus {
+        border-color: #88ff88;
+        outline: none;
+      }
+      .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background-color: #00bcd4;
+        border: none;
+        border-radius: 6px;
+        color: #fff;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-bottom: 20px;
+      }
+      .btn-submit:hover {
+        background-color: #00acc1;
+      }
+      .login-link {
+        text-align: center;
+        font-size: 0.9em;
+        color: rgba(255, 255, 255, 0.9);
+        margin-top: 15px;
+      }
+      .login-link a {
+        color: #fff;
+        text-decoration: underline;
+        font-weight: bold;
+      }
+      .flash {
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        text-align: center;
+      }
+      .flash.danger {
+        background-color: #e74c3c;
+        color: #fff;
+      }
+      .flash.success {
+        background-color: #2ecc71;
+        color: #fff;
+      }
+      @media (max-width: 768px) {
+        .login-wrapper {
+          flex-direction: column;
+          width: 95%;
+          height: auto;
+          max-height: none;
+        }
+        .image-section {
+          height: 150px;
+        }
+        .form-section {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <div class="image-section">
+        <div class="image-overlay">
+          <h2>GamePulse AI</h2>
+          <p>
+            "Tu portal al futuro de los videojuegos. Analiza, predice y domina
+            el mercado."
+          </p>
+          <p style="font-size: 0.8em; margin-top: 20px">
+            Accede a tu cuenta para empezar.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p
+          style="
+            text-align: right;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+          "
+        >
+          ¿No tienes una cuenta?
+          <a
+            href="{{ url_for('register') }}"
+            style="color: #fff; text-decoration: underline"
+            >Regístrate aquí</a
+          >
+        </p>
+        <h1>Bienvenido de Nuevo</h1>
+        <p class="subtitle">Inicia sesión para continuar.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <form action="/login" method="POST">
+          <div class="form-group">
+            <label for="username">Usuario</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Tu nombre de usuario"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Tu contraseña"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-submit">Ingresar</button>
+        </form>
+
+        <p
+          style="
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8em;
+            margin-top: 20px;
+          "
+        >
+          &copy; 2024 GamePulse AI. Todos los derechos reservados.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

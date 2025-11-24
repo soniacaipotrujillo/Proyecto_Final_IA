@@ -1,0 +1,221 @@
+{% extends "base.html" %} {% block title %}Juegos Analizados - GamePulse AI{%
+endblock %} {% block content %}
+<h2>Juegos Analizados en Tiempo Real</h2>
+<p style="color: #b0b0b0; margin-bottom: 30px">
+  Un desglose de los juegos monitorizados por plataforma. Haz clic en un juego
+  para ver sus métricas.
+</p>
+
+<style>
+  .platform-card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px; /* Espacio entre plataformas */
+  }
+  .platform-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+  .platform-header span {
+    /* Icono de plataforma */
+    font-size: 2em;
+    margin-right: 15px;
+  }
+  .platform-header h3 {
+    font-size: 1.8em;
+    margin: 0;
+    color: #fff;
+  }
+  .platform-header p {
+    margin: 0;
+    color: #b0b0b0;
+  }
+
+  .game-list-header,
+  .game-list-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; /* 3 columnas: Juego, Estado, Pico */
+    align-items: center;
+    padding: 10px 15px;
+  }
+
+  .game-list-header {
+    color: #b0b0b0;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    border-bottom: 1px solid #444;
+    margin-bottom: 10px;
+  }
+
+  .game-list-row {
+    background-color: #1a1a1a;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 15px;
+  }
+  .game-info {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #fff;
+  }
+  .game-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #333;
+    border-radius: 6px;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+  }
+
+  .game-status,
+  .game-peak {
+    font-weight: 500;
+  }
+  .game-peak {
+    text-align: right;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  /* --- Estilos de Estado --- */
+  .status-pendiente {
+    color: #b0b0b0;
+  }
+  .status-activo {
+    color: #fff;
+  }
+  .status-estable {
+    color: #f0ad4e;
+  } /* Naranja/Amarillo */
+  .status-creciente {
+    color: #77dd77;
+  } /* Verde */
+  .status-resurgimiento {
+    color: #5bc0de;
+  } /* Azul claro */
+</style>
+
+<div class="platform-card">
+  <div class="platform-header">
+    <span>🎮</span>
+    <div>
+      <h3>Steam</h3>
+      <p>Métricas de juegos activos en esta plataforma.</p>
+    </div>
+  </div>
+
+  <div class="game-list-header">
+    <div>Juego</div>
+    <div>Estado</div>
+    <div style="text-align: right">Pico de Jugadores</div>
+  </div>
+
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">👹</div>
+      Resident Evil Requiem
+    </div>
+    <div class="game-status status-pendiente"><span></span>Pendiente</div>
+    <div class="game-peak">N/A</div>
+  </div>
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">⚔️</div>
+      Solo Leveling: Arise OVERDRIVE
+    </div>
+    <div class="game-status status-pendiente"><span></span>Pendiente</div>
+    <div class="game-peak">N/A</div>
+  </div>
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">🛡️</div>
+      Counter-Strike 2
+    </div>
+    <div class="game-status status-activo"><span></span>Activo</div>
+    <div class="game-peak">1.8M</div>
+  </div>
+</div>
+
+<div class="platform-card">
+  <div class="platform-header">
+    <span>🔵</span>
+    <div>
+      <h3>PlayStation</h3>
+      <p>Métricas de juegos activos en esta plataforma.</p>
+    </div>
+  </div>
+
+  <div class="game-list-header">
+    <div>Juego</div>
+    <div>Estado</div>
+    <div style="text-align: right">Pico de Jugadores</div>
+  </div>
+
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">🪓</div>
+      God of War Ragnarök
+    </div>
+    <div class="game-status status-estable"><span></span>Estable</div>
+    <div class="game-peak">1.2M</div>
+  </div>
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">🕷️</div>
+      Marvel's Spider-Man 2
+    </div>
+    <div class="game-status status-activo"><span></span>Activo</div>
+    <div class="game-peak">1.5M</div>
+  </div>
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">👑</div>
+      Elden Ring
+    </div>
+    <div class="game-status status-resurgimiento">
+      <span></span>Resurgimiento
+    </div>
+    <div class="game-peak">950k</div>
+  </div>
+</div>
+
+<div class="platform-card">
+  <div class="platform-header">
+    <span>🟢</span>
+    <div>
+      <h3>Xbox</h3>
+      <p>Métricas de juegos activos en esta plataforma.</p>
+    </div>
+  </div>
+
+  <div class="game-list-header">
+    <div>Juego</div>
+    <div>Estado</div>
+    <div style="text-align: right">Pico de Jugadores</div>
+  </div>
+
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">🚗</div>
+      Forza Horizon 5
+    </div>
+    <div class="game-status status-activo"><span></span>Activo</div>
+    <div class="game-peak">450k</div>
+  </div>
+  <div class="game-list-row">
+    <div class="game-info">
+      <div class="game-icon">🤖</div>
+      Halo Infinite
+    </div>
+    <div class="game-status status-estable"><span></span>Estable</div>
+    <div class="game-peak">320k</div>
+  </div>
+</div>
+
+{% endblock %}

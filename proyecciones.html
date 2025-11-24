@@ -1,0 +1,155 @@
+{% extends 'base.html' %} {% block title %}Generar Proyecciones - GamePulse AI{%
+endblock %} {% block content %}
+<style>
+  .proyeccion-header {
+    margin-bottom: 30px;
+  }
+  .proyeccion-header h2 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .proyeccion-header p {
+    color: #a0a0a0;
+  }
+
+  /* Grid de 2 columnas: Formulario (Izquierda) y Resultado (Derecha) */
+  .projection-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+  }
+
+  /* Estilos de las Tarjetas */
+  .custom-card {
+    background-color: #1e1e1e; /* Ajusta esto al color de tus tarjetas actuales */
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #333;
+  }
+
+  /* Inputs y Textareas */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group label {
+    display: block;
+    color: #fff;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .custom-input {
+    width: 100%;
+    background-color: #2a2a2a; /* Fondo oscuro para inputs */
+    border: 1px solid #444;
+    color: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: inherit;
+  }
+  .custom-input:focus {
+    outline: none;
+    border-color: #7c3aed; /* Tu color acento (violeta) */
+  }
+  textarea.custom-input {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  /* Botón */
+  .btn-generate {
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s;
+  }
+  .btn-generate:hover {
+    background-color: #6d28d9;
+  }
+
+  /* Placeholder del Resultado */
+  .result-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    text-align: center;
+    color: #888;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .projection-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="proyeccion-container">
+  <div class="proyeccion-header">
+    <h2>Proyecciones de Popularidad</h2>
+    <p>
+      Genera proyecciones futuras basadas en datos históricos y tendencias
+      sociales.
+    </p>
+  </div>
+
+  <div class="projection-grid">
+    <div class="custom-card">
+      <h3 style="color: white; margin-bottom: 15px">Entrada de Datos</h3>
+      <form action="/predict" method="POST">
+        <div class="form-group">
+          <label>Título del Juego</label>
+          <input
+            type="text"
+            name="titulo"
+            class="custom-input"
+            placeholder="Ej: Cyberpunk 2077"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Datos Históricos</label>
+          <textarea
+            name="historico"
+            class="custom-input"
+            placeholder="Ventas, jugadores simultáneos, actualizaciones..."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Tendencias en Redes Sociales</label>
+          <textarea
+            name="tendencias"
+            class="custom-input"
+            placeholder="Sentimiento de usuarios, menciones en Twitter/X..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn-generate">Generar Proyección</button>
+      </form>
+    </div>
+
+    <div class="custom-card">
+      <h3 style="color: white; margin-bottom: 15px">
+        Resultado de la Proyección
+      </h3>
+
+      <div class="result-box">
+        {% if prediction_text %}
+        <h2 style="color: #7c3aed">{{ prediction_text }}</h2>
+        {% else %}
+        <p>La proyección generada por IA aparecerá aquí.</p>
+        <span style="font-size: 2rem; margin-top: 10px">📊</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

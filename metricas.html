@@ -1,0 +1,171 @@
+{% extends "base.html" %} {% block title %}Métricas - GamePulse AI{% endblock %}
+{% block content %}
+<h2>Métricas de Distribución de Jugadores</h2>
+<p style="color: #b0b0b0; margin-bottom: 30px">
+  Selecciona un juego para visualizar la distribución global de su base de
+  jugadores.
+</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%} {% for category, message in messages %}
+<div class="flash {{ category }}">{{ message }}</div>
+{% endfor %} {% endif %} {% endwith %}
+
+<style>
+  .platform-card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+  }
+  .platform-card > h3 {
+    /* Título "Seleccionar un Juego" */
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+  .platform-card > p {
+    /* Subtítulo "Elige un juego..." */
+    margin-top: 0;
+    color: #b0b0b0;
+    margin-bottom: 20px;
+  }
+
+  .platform-group h3 {
+    /* Títulos "Steam", "PlayStation" */
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #b0b0b0;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  .platform-group h3 span {
+    /* Icono de plataforma */
+    font-size: 1.2em;
+    margin-right: 10px;
+  }
+
+  .game-selector-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px; /* Espacio entre píldoras */
+  }
+
+  /* --- ESTILO DE LA PÍLDORA (BOTÓN) --- */
+  .game-button {
+    background-color: #383838; /* Fondo más oscuro */
+    color: #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 8px; /* Bordes redondeados */
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex; /* Para alinear icono y texto */
+    align-items: center;
+    border: 1px solid #444; /* Borde sutil */
+  }
+  .game-button:hover {
+    background-color: #4a4a4a;
+    color: #fff;
+  }
+  .game-button .icon {
+    /* Estilo para el icono */
+    margin-right: 8px;
+    font-size: 1.1em;
+    opacity: 0.8; /* Hace el emoji un poco más sutil */
+  }
+  /* --- FIN ESTILO DE LA PÍLDORA --- */
+
+  .game-button.disabled {
+    background-color: #222;
+    color: #777;
+    cursor: not-allowed;
+    opacity: 0.6;
+    border-color: #333;
+  }
+
+  /* Estilos para los mensajes flash */
+  .flash {
+    padding: 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .flash.danger {
+    background-color: #ff6b6b;
+    color: #121212;
+  }
+  .flash.success {
+    background-color: #77dd77;
+    color: #121212;
+  }
+</style>
+
+<div class="platform-card">
+  <h3>Seleccionar un Juego</h3>
+  <p>
+    Elige un juego de la lista para ver sus métricas de distribución de
+    jugadores.
+  </p>
+
+  <div class="platform-group">
+    <h3><span>🎮</span> Steam</h3>
+    <div class="game-selector-container">
+      {% for game in game_list if game.platform == 'Steam' %} {% if
+      game.disabled %}
+      <span class="game-button disabled">
+        <span class="icon">{{ game.icon }}</span>{{ game.name }}
+      </span>
+      {% else %}
+      <a
+        href="{{ url_for('metricas_detalle', game_slug=game.slug) }}"
+        class="game-button"
+      >
+        <span class="icon">{{ game.icon }}</span>{{ game.name }}
+      </a>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+
+  <div class="platform-group">
+    <h3 style="margin-top: 30px"><span>🔵</span> PlayStation</h3>
+    <div class="game-selector-container">
+      {% for game in game_list if game.platform == 'PlayStation' %} {% if
+      game.disabled %}
+      <span class="game-button disabled">
+        <span class="icon">{{ game.icon }}</span>{{ game.name }}
+      </span>
+      {% else %}
+      <a
+        href="{{ url_for('metricas_detalle', game_slug=game.slug) }}"
+        class="game-button"
+      >
+        <span class="icon">{{ game.icon }}</span>{{ game.name }}
+      </a>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+
+  <div class="platform-group">
+    <h3 style="margin-top: 30px"><span>🟢</span> Xbox</h3>
+    <div class="game-selector-container">
+      {% for game in game_list if game.platform == 'Xbox' %} {% if game.disabled
+      %}
+      <span class="game-button disabled">
+        <span class="icon">{{ game.icon }}</span>{{ game.name }}
+      </span>
+      {% else %}
+      <a
+        href="{{ url_for('metricas_detalle', game_slug=game.slug) }}"
+        class="game-button"
+      >
+        <span class="icon">{{ game.icon }}</span>{{ game.name }}
+      </a>
+      {% endif %} {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
